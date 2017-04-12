@@ -17,10 +17,10 @@
 
   <ItemGroup>
     <PackageReference Include="Confifu.Abstractions" Version="2.1.1" />
-    <PackageReference Include="Confifu.Abstractions.DependencyInjection" Version="2.0.0" />
+    <PackageReference Include="Confifu.Abstractions.DependencyInjection" Version="2.1.0" />
     <PackageReference Include="Confifu.Abstractions.Logging" Version="1.0.0" />
     <PackageReference Include="protobuf-net" Version="2.1.0" />
-    <PackageReference Include="ServiceStack.Confifu" Version="2.1.2" />
+    <PackageReference Include="ServiceStack.Confifu" Version="2.2.1" />
     <PackageReference Include="ServiceStack.V3.Meta" Version="1.0.1" />
   </ItemGroup>
 
