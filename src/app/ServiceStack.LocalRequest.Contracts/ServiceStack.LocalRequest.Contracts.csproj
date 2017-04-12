@@ -1,0 +1,15 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net451</TargetFramework>
+    <VersionPrefix>2.0.0</VersionPrefix>
+    <VersionSuffix>$(vs)</VersionSuffix>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="1.1.1" />
+    <PackageReference Include="protobuf-net" Version="2.1.0" />
+    <PackageReference Include="ServiceStack.V3.Meta" Version="1.0.1" />
+  </ItemGroup>
+
+</Project>

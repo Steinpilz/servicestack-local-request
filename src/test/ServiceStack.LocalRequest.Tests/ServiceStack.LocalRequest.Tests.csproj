@@ -19,6 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\app\ServiceStack.LocalRequest.Contracts\ServiceStack.LocalRequest.Contracts.csproj" />
     <ProjectReference Include="..\..\app\ServiceStack.LocalRequest\ServiceStack.LocalRequest.csproj" />
   </ItemGroup>
 
