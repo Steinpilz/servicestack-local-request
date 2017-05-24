@@ -54,11 +54,14 @@ namespace ServiceStack.LocalRequest.Client
         private void AssertResponse(SimpleHttpResponse response)
         {
             if (response.StatusCode >= 400)
-                throw new WebServiceException()
+            {
+                var body = EncodeBody(response);
+                throw new WebServiceException($"{response.StatusCode}:\r\n {body}")
                 {
                     StatusCode = response.StatusCode,
-                    ResponseBody = EncodeBody(response)
+                    ResponseBody = body,
                 };
+            }
         }
 
         protected void Send(string method, IReturnVoid request)
