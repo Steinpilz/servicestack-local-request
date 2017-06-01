@@ -18,10 +18,10 @@ namespace ServiceStack.LocalRequest
 
         public SimpleHttpJsonRestClient CreateJsonClient()
         {
-            return new SimpleHttpJsonRestClient(SendRequest, logger);
+            return new SimpleHttpJsonRestClient(req => SendRequest(req), logger);
         }
 
-        private SimpleHttpResponse SendRequest(SimpleHttpRequest request)
+        SimpleHttpResponse SendRequest(SimpleHttpRequest request)
         {
             var executor = _executorFunc();
             var response = executor.Execute(request);

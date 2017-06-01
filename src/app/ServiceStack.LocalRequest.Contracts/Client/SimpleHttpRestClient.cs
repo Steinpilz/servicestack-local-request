@@ -10,6 +10,7 @@ using ServiceStack.ServiceHost;
 using ServiceStack.ServiceModel.Serialization;
 using ServiceStack.Text;
 using Microsoft.Extensions.Logging;
+using System.Threading.Tasks;
 
 namespace ServiceStack.LocalRequest.Client
 {
@@ -17,8 +18,15 @@ namespace ServiceStack.LocalRequest.Client
     {
         protected TResponse SendAndDeserialize<TResponse>(string method, IReturn<TResponse> request, string url = null)
         {
+            return SendAndDeserializeAsync(method, request, url).Result;
+
+        }
+
+        protected async Task<TResponse> SendAndDeserializeAsync<TResponse>(string method, IReturn<TResponse> request, string url = null)
+        {
             var requestUrl = request.ToUrl(method, Format);
-            var response = SendInternal(method, request, url ?? requestUrl);
+            var response = await SendAsyncInternal(method, request, url ?? requestUrl)
+                .ConfigureAwait(false);
 
             AssertResponse(response);
 
@@ -40,18 +48,18 @@ namespace ServiceStack.LocalRequest.Client
             return dto;
         }
 
-        private static TResponse DeserializeBody<TResponse>(SimpleHttpResponse response)
+        static TResponse DeserializeBody<TResponse>(SimpleHttpResponse response)
         {
             return JsonDataContractDeserializer.Instance.DeserializeFromString<TResponse>(
                 EncodeBody(response));
         }
 
-        private static string EncodeBody(SimpleHttpResponse response)
+        static string EncodeBody(SimpleHttpResponse response)
         {
             return Encoding.UTF8.GetString(response.Body);
         }
 
-        private void AssertResponse(SimpleHttpResponse response)
+        void AssertResponse(SimpleHttpResponse response)
         {
             if (response.StatusCode >= 400)
             {
@@ -72,22 +80,27 @@ namespace ServiceStack.LocalRequest.Client
             AssertResponse(response);
         }
         
-        private SimpleHttpResponse SendInternal(string method, object requestDto, string url)
+        SimpleHttpResponse SendInternal(string method, object requestDto, string url)
+        {
+            return SendAsyncInternal(method, requestDto, url).Result;
+        }
+
+        async Task<SimpleHttpResponse> SendAsyncInternal(string method, object requestDto, string url)
         {
             if (method == null) throw new ArgumentNullException(nameof(method));
 
             method = method.ToUpper();
-            var body = method == "GET" || requestDto == null 
-                ? new byte[0] 
+            var body = method == "GET" || requestDto == null
+                ? new byte[0]
                 : Encoding.UTF8.GetBytes(requestDto.ToJson());
-            
-            var response = Send(new SimpleHttpRequest
+
+            var response = await SendAsync(new SimpleHttpRequest
             {
                 Method = method,
                 Body = body,
                 Url = $"{UrlPrefix}{url}",
                 Headers = new List<HttpHeader>(),
-            });
+            }).ConfigureAwait(false);
             return response;
         }
 
@@ -128,10 +141,16 @@ namespace ServiceStack.LocalRequest.Client
         public TResponse Patch<TResponse>(string relativeOrAbsoluteUrl, object request) 
             => SendAndDeserialize<TResponse>("PATCH", request, relativeOrAbsoluteUrl);
 
-        public void CustomMethod(string httpVerb, IReturnVoid request) => Send(httpVerb, request);
+        public void CustomMethod(string httpVerb, IReturnVoid request) 
+            => Send(httpVerb, request);
 
-        public TResponse CustomMethod<TResponse>(string httpVerb, IReturn<TResponse> request) => SendAndDeserialize(httpVerb, request);
+        public TResponse CustomMethod<TResponse>(string httpVerb, IReturn<TResponse> request) 
+            => SendAndDeserialize(httpVerb, request);
 
+        public Task<TResponse> CustomMethodAsync<TResponse>(string httpVerb, IReturn<TResponse> request)
+            => SendAndDeserializeAsync(httpVerb, request);
+
+        //        SendAndDeserializeAsync
         public HttpWebResponse Head(IReturn request)
         {
             throw new System.NotImplementedException();
@@ -149,6 +168,11 @@ namespace ServiceStack.LocalRequest.Client
 
         public SimpleHttpRestClient(Func<SimpleHttpRequest, SimpleHttpResponse> sendFunc, ILogger logger) 
             : base(sendFunc, logger)
+        {
+        }
+
+        public SimpleHttpRestClient(Func<SimpleHttpRequest, Task<SimpleHttpResponse>> sendFuncAsync, ILogger logger)
+            : base(sendFuncAsync, logger)
         {
         }
     }
