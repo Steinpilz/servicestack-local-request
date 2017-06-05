@@ -88,7 +88,7 @@ namespace ServiceStack.LocalRequest.Client
             if (LogRequests)
                 logger.LogDebug($"Sending request [{requestId}] {request.Dump()}");
 
-            var result = await SendRequestAsync(request);
+            var result = await SendRequestAsync(request).ConfigureAwait(false);
 
             if (LogRequests)
                 logger.LogDebug($"Got response [{requestId}] {result.Dump()}");
