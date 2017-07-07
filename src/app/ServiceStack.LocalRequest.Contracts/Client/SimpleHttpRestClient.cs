@@ -18,7 +18,17 @@ namespace ServiceStack.LocalRequest.Client
     {
         protected TResponse SendAndDeserialize<TResponse>(string method, IReturn<TResponse> request, string url = null)
         {
-            return SendAndDeserializeAsync(method, request, url).Result;
+            try
+            {
+                return SendAndDeserializeAsync(method, request, url).Result;
+            }
+            catch(AggregateException ex)
+            {
+                // get inner exception from aggregate exception
+                if (ex.InnerExceptions.Count == 1)
+                    throw ex.InnerExceptions[0];
+                throw;
+            }
 
         }
 
@@ -82,7 +92,18 @@ namespace ServiceStack.LocalRequest.Client
         
         SimpleHttpResponse SendInternal(string method, object requestDto, string url)
         {
-            return SendAsyncInternal(method, requestDto, url).Result;
+            try
+            {
+                return SendAsyncInternal(method, requestDto, url).Result;
+            }
+            catch (AggregateException ex)
+            {
+                // get inner exception from aggregate exception
+                if (ex.InnerExceptions.Count == 1)
+                    throw ex.InnerExceptions[0];
+                throw;
+            }
+
         }
 
         async Task<SimpleHttpResponse> SendAsyncInternal(string method, object requestDto, string url)

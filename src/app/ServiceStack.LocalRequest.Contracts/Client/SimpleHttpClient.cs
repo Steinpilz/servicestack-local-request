@@ -45,7 +45,10 @@ namespace ServiceStack.LocalRequest.Client
         {
             this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
             this.sendFunc = sendFunc ?? throw new ArgumentNullException(nameof(sendFunc));
-            this.sendFuncAsync = req => Task.Factory.StartNew(() => this.sendFunc(req));
+            this.sendFuncAsync = async req => {
+                var result = this.sendFunc(req);
+                return result;
+            };
         }
 
         protected SimpleHttpResponse SendRequest(SimpleHttpRequest request)
