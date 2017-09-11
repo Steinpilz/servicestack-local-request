@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>net451</TargetFramework>
-    <VersionPrefix>2.1.3</VersionPrefix>
+    <VersionPrefix>2.1.4</VersionPrefix>
     <VersionSuffix>$(vs)</VersionSuffix>
   </PropertyGroup>
 
