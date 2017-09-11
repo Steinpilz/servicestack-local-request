@@ -4,6 +4,7 @@ using System.Linq;
 using ServiceStack.LocalRequest.Contracts;
 using ServiceStack.Text;
 using Microsoft.Extensions.Logging;
+using ServiceStack.LocalRequest.Debug;
 
 namespace ServiceStack.LocalRequest
 {
@@ -32,7 +33,7 @@ namespace ServiceStack.LocalRequest
             var requestId = Guid.NewGuid().ToString("N");
 
             if (_logRequests)
-                logger.LogDebug($"Request [{clientRequestId}] [tmp-{requestId}]: {request.Dump()}");
+                logger.LogDebug($"Request [{clientRequestId}] [tmp-{requestId}]:\r\n {new RequestDumper(request).Dump()}");
 
             SimpleHttpResponse response = null;
 
@@ -52,7 +53,7 @@ namespace ServiceStack.LocalRequest
             }
 
             if (_logRequests)
-                logger.LogDebug($"Response [{clientRequestId}] [tmp-{requestId}]: {response.Dump()}");
+                logger.LogDebug($"Response [{clientRequestId}] [tmp-{requestId}]:\r\n {new ResponseDumper(response).Dump()}");
 
             return response;
         }
