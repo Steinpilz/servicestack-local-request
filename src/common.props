@@ -1,0 +1,7 @@
+<Project>
+  <PropertyGroup>
+    <Company>Steinpilz GmbH</Company>
+    <Authors>steinpilz, ivanbianko</Authors>
+    <VersionPrefix>2.1.5</VersionPrefix>
+  </PropertyGroup>
+</Project>

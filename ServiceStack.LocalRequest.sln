@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26403.3
+VisualStudioVersion = 15.0.26730.12
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{5A7B49A2-291A-4609-AA93-74212323F5CD}"
 EndProject
@@ -9,13 +9,14 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".sln", ".sln", "{CC408C3F-1
 	ProjectSection(SolutionItems) = preProject
 		.env = .env
 		scripts\build.fsx = scripts\build.fsx
+		src\common.props = src\common.props
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ServiceStack.LocalRequest", "src\app\ServiceStack.LocalRequest\ServiceStack.LocalRequest.csproj", "{56D3F8F8-45FE-4756-A500-DC17FB28AFC4}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ServiceStack.LocalRequest.Tests", "src\test\ServiceStack.LocalRequest.Tests\ServiceStack.LocalRequest.Tests.csproj", "{F904D39B-90F0-4BFE-8158-FD6369D9E716}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServiceStack.LocalRequest.Contracts", "src\app\ServiceStack.LocalRequest.Contracts\ServiceStack.LocalRequest.Contracts.csproj", "{62E5E5FE-DF0A-4AE7-A9B7-94E06FC783A1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ServiceStack.LocalRequest.Contracts", "src\app\ServiceStack.LocalRequest.Contracts\ServiceStack.LocalRequest.Contracts.csproj", "{62E5E5FE-DF0A-4AE7-A9B7-94E06FC783A1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -41,5 +42,8 @@ Global
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{F904D39B-90F0-4BFE-8158-FD6369D9E716} = {5A7B49A2-291A-4609-AA93-74212323F5CD}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {9813FC54-F248-4D33-8658-AD81FA4CF48E}
 	EndGlobalSection
 EndGlobal
