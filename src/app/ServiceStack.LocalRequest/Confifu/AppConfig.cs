@@ -28,7 +28,7 @@ namespace ServiceStack.LocalRequest.Confifu
 
             internal void InitDefaults()
             {
-                var vars = appConfig.GetConfigVariables().WithPrefix("ServiceStack:LocalRequest");
+                var vars = appConfig.GetConfigVariables().WithPrefix("ServiceStack:LocalRequest:");
                 LogRequests = ParseBool(vars["LogRequests"], false);
 
                 appConfig
@@ -47,6 +47,13 @@ namespace ServiceStack.LocalRequest.Confifu
                             );
 
                         sc.Replace(ServiceDescriptor.Transient<LocalClientFactory, LocalClientFactory>());
+                    })
+                    .AddAppRunnerAfter(() => {
+                        if(LogRequests)
+                        {
+                            var logger = appConfig.GetServiceProvider().GetService<ILogger>();
+                            logger.LogDebug("Request logging is turned on!");
+                        }
                     });
             }
 

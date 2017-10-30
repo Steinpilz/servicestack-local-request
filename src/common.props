@@ -2,6 +2,6 @@
   <PropertyGroup>
     <Company>Steinpilz GmbH</Company>
     <Authors>steinpilz, ivanbianko</Authors>
-    <VersionPrefix>2.1.5</VersionPrefix>
+    <VersionPrefix>2.1.6</VersionPrefix>
   </PropertyGroup>
 </Project>
