@@ -151,7 +151,7 @@ namespace ServiceStack.LocalRequest
 
             serviceStackHandler.ProcessRequest(httpReq, httpRes, httpReq.OperationName ?? string.Empty);
             httpRes.Close();
-            return true;
+            return !(handler is NotFoundHttpHandler);
         }
 
         protected void SetConfig(EndpointHostConfig config)

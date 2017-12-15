@@ -27,7 +27,7 @@ namespace ServiceStack.LocalRequest
             _host = host ?? throw new ArgumentNullException(nameof(host));
         }
 
-        public SimpleHttpResponse Execute(SimpleHttpRequest request)
+        public bool TryExecute(SimpleHttpRequest request, out SimpleHttpResponse response)
         {
             var clientRequestId = ExtractClientRequestId(request);
             var requestId = Guid.NewGuid().ToString("N");
@@ -35,8 +35,7 @@ namespace ServiceStack.LocalRequest
             if (_logRequests)
                 logger.LogDebug($"Request [{clientRequestId}] [tmp-{requestId}]:\r\n {new RequestDumper(request).Dump()}");
 
-            SimpleHttpResponse response = null;
-
+            response = null;
             for (var i = 0; i < RetriesCount; i++)
             {
                 response = new SimpleHttpResponse
@@ -46,7 +45,9 @@ namespace ServiceStack.LocalRequest
 
                 var httpReq = new SimpleHttpRequestAdapter(request);
                 var httpRes = new SimpleHttpResponseAdapter(response);
-                _host.Handle(httpReq, httpRes);
+
+                if (!_host.Handle(httpReq, httpRes))
+                    return false;
 
                 if (!httpReq.Items.ContainsKey("RetryRequest"))
                     break;
@@ -55,6 +56,12 @@ namespace ServiceStack.LocalRequest
             if (_logRequests)
                 logger.LogDebug($"Response [{clientRequestId}] [tmp-{requestId}]:\r\n {new ResponseDumper(response).Dump()}");
 
+            return true;
+        }
+
+        public SimpleHttpResponse Execute(SimpleHttpRequest request)
+        {
+            TryExecute(request, out SimpleHttpResponse response);
             return response;
         }
 
