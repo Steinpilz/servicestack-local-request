@@ -154,3 +154,5 @@ deploy/
 .artifacts
 project.lock.json
 .idea
+
+paket-files
