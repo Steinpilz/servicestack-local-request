@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <Description>ServiceStack.LocalRequest.Tests Class Library</Description>
-    <TargetFramework>net452</TargetFramework>
+    <TargetFramework>net462</TargetFramework>
     <AssemblyName>ServiceStack.LocalRequest.Tests</AssemblyName>
     <PackageId>ServiceStack.LocalRequest.Tests</PackageId>
   </PropertyGroup>

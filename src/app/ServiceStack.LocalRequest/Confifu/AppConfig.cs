@@ -6,10 +6,6 @@ using Microsoft.Extensions.Logging;
 using ServiceStack.Confifu;
 using ServiceStack.WebHost.Endpoints;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ServiceStack.LocalRequest.Confifu
 {
