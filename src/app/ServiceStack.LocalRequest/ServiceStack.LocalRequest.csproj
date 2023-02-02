@@ -6,6 +6,7 @@
     <TargetFramework>net461</TargetFramework>
     <AssemblyName>ServiceStack.LocalRequest</AssemblyName>
     <PackageId>ServiceStack.LocalRequest</PackageId>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
   </PropertyGroup>
 
   <ItemGroup >
